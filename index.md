@@ -37,7 +37,36 @@ Here is the list of patches that were upstreamed to the LLVM Github Monorepo.
 - [FunctionPropertiesAnalysis] [Add a Printer to the FunctionPropertiesAnalysis](https://reviews.llvm.org/D82523)
 - [FunctionPropertiesAnalysis] [Add new function properties to FunctionPropertiesAnalysis](https://reviews.llvm.org/D82283)
 
-We wrote a new [loadable ‘instrumentation’ pass](https://github.com/tarinduj/GSoC2020/blob/master/FunctionPropertiesAnalysisPassInstrument.cpp), which runs after each pass in the pass pipeline. It takes the IR unit (module, function, etc.) the pass was run on, and extracts the functions from the IR unit to analyze function properties after the pass. The pass can be found [here](https://github.com/tarinduj/GSoC2020/blob/master/FunctionPropertiesAnalysisPassInstrument.cpp).  
+We wrote a new [loadable ‘instrumentation’ pass](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/FunctionPropertiesAnalysisPassInstrument.cpp), which runs after each pass in the pass pipeline. It takes the IR unit (module, function, etc.) the pass was run on, and extracts the functions from the IR unit.  After extracting the function, it analyzes the extracted function and outputs the new function properties after the pass. The pass can be found [here](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/FunctionPropertiesAnalysisPassInstrument.cpp).
+
+We analyzed the CTMark Benchmark Set from the LLVM Test Suite using the _Function Properties Analysis Pass Instrument_. We dumped the output from the pass instrument to files on a one file for each module from the benchmark basis. A sample file can be found in [this link](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/SPASS_clause.c.txt).
+
+### Analyzing Function Properties
+
+We needed to devise a method to properly visualize the data. We had a few problems with regard to this. 
+
+1. different functions have different pass pipelines
+1. modules can have hundreds and thousands of functions
+1. a benchmark consists of hundreds of modules like this
+1. need to visualize the change over 8 function properties
+
+We came up with the concept of a _Hyper Pass Pipeline_, where we align the pass pipelines of different functions to get the hyper pass pipeline. We used sequence alignment concepts from bioinformatics and dynamic programming for this. The script to get the hyper pass pipeline as a CSV file can be found [here](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/getHPP.py). 
+
+The structure of the Pandas data frame containing the hyper pass pipeline looks like this.
+
+Function Name | Pass1_FunctionProperty1 | Pass1_FunctionProperty2 | … | Pass1_FunctionPropertyM | … |  … | PassN_FunctionPropertyM
+------------ | -------------| -------------| -------------| -------------| -------------| -------------| -------------
+Function1| xx | xx || xx ||| xx
+Function2| xx | xx || xx ||| xx
+...|||||||
+
+### Identifying Function Kinds
+
+We needed to identify function ‘kinds’ from the features we extracted. We decided to use machine learning-based clustering techniques for this. Due to the presence of a  large number of features, we decided to reduce the number of features using feature reduction techniques. 
+
+We applied Principal Component Analysis (PCA) techniques and reduced the number of features to 50. t-distributed Stochastic Neighbor Embedding (t-SNE) was applied on top of that reduce it further to just two dimensions. We tried K-Means and DBSCAN for clustering, and DBSCAN gave us the best results. Then, we plot interactive graphs to visualize the function properties change over time for different clusters. IPython Notebook containing the code for clustering can be found [here](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Clustering.ipynb).
+
+We wanted to build a model that can predict the cluster each function belongs to early on, without waiting for the full pass pipeline to execute. We implemented an XGB model, that can predict the function kind with the function properties after only the first and the thirtieth passes. Implementation of the model can be found [here](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Clustering%2BModel.ipynb).
 
 ### Markdown
 
