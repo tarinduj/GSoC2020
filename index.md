@@ -68,34 +68,48 @@ We applied Principal Component Analysis (PCA) techniques and reduced the number 
 
 We wanted to build a model that can predict the cluster each function belongs to early on, without waiting for the full pass pipeline to execute. We implemented an XGB model, that can predict the function kind with the function properties after only the first and the thirtieth passes. Implementation of the model can be found [here](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Clustering%2BModel.ipynb).
 
-### Markdown
+## Results
+### Clustering
+We used a combination of PCA and t-SNE along with DBSCAN to cluster the functions. The following plot demonstrates the clusters we got for /MultiSource/Applications/SPASS/clause.c module in the LLVM Test Suite.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/DBSCAN.png)
 
-```markdown
-Syntax highlighted code block
+This how the code features change after each pass in the pass pipeline is applied to /MultiSource/Applications/SPASS/clause.c module in the LLVM Test Suite. Each subplot shows a code feature (shown in the subplot title) change over time. The horizontal axis is the pass pipeline, while the vertical axis is the code feature value.
 
-# Header 1
-## Header 2
-### Header 3
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered1.png)
 
-- Bulleted
-- List
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered2.png)
 
-1. Numbered
-2. List
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered3.png)
 
-**Bold** and _Italic_ and `Code` text
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered4.png)
 
-[Link](url) and ![Image](src)
-```
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered5.png)
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered6.png)
 
-### Jekyll Themes
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered7.png)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/tarinduj/GSoC2020/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered8.png)
 
-### Support or Contact
+As seen here, a module may contain a large number of functions belonging to different clusters. We summarized the details of each cluster by only plotting the function with the highest number of passes in the pipeline to represent the cluster.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image4.png)
+
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image8.png)
+
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image1.png)
+
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image3.png)
+
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image5.png)
+
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image6.png)
+
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image7.png)
+
+![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Image8.png)
+
+### Predictive Model
+
+We experimented with an XGB Model for the dataset from /MultiSource/Applications/SPASS/clause.c module.  We predicted the cluster each function belongs to only using the code features after the first and the thirtieth pass in the pass pipeline with an 85% accuracy.
