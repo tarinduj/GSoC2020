@@ -74,7 +74,7 @@ We used a combination of PCA and t-SNE along with DBSCAN to cluster the function
 
 ![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/DBSCAN.png)
 
-This how the code features change after each pass in the pass pipeline is applied to /MultiSource/Applications/SPASS/clause.c module in the LLVM Test Suite. Each subplot shows a code feature (shown in the subplot title) change over time. The horizontal axis is the pass pipeline, while the vertical axis is the code feature value.
+This how the code features change after each pass in the pass pipeline is applied to _/MultiSource/Applications/SPASS/clause.c_ module in the LLVM Test Suite. Each subplot shows a code feature (shown in the subplot title) change over time. The horizontal axis is the pass pipeline, while the vertical axis is the code feature value.
 
 ![Image](https://github.com/tarinduj/Google-Summer-of-Code-2020/blob/master/Images/Cluttered1.png)
 
@@ -112,4 +112,10 @@ As seen here, a module may contain a large number of functions belonging to diff
 
 ### Predictive Model
 
-We experimented with an XGB Model for the dataset from /MultiSource/Applications/SPASS/clause.c module.  We predicted the cluster each function belongs to only using the code features after the first and the thirtieth pass in the pass pipeline with an 85% accuracy.
+We experimented with an XGB Model for the dataset from _/MultiSource/Applications/SPASS/clause.c_ module.  We predicted the cluster each function belongs to only using the code features after the first and the thirtieth pass in the pass pipeline with an 85% accuracy.
+
+## Future Work
+
+Currently, we are analyzing the code features change over the entire CTMark benchmark suite. After we get the clusters and a predictive model over the entire benchmark set, we plan to experiment with eliminating certain passes in the pass pipeline early on to see its effect on compile-time and code optimization. 
+
+We also have a Lightning Talk coming up at the [2020 Virtual LLVM Developers' Meeting](https://llvm.org/devmtg/2020-09/) on our work.
