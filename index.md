@@ -1,5 +1,5 @@
 # Advanced Heuristics for Ordering Compiler Optimization Passes
-**_written by_ Tarindu Jayatilaka for Google Summer of Code 2020 with LLVM Compiler Infrastructure 
+**_written by_ Tarindu Jayatilaka _for_ Google Summer of Code 2020 _with_ LLVM Compiler Infrastructure**
 
 ## Problem Statement
 
